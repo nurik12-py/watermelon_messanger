@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset=utf-8 />
+    <title>Draw a circle</title>
+</head>
+<style>
+    #canvas {
+        width: 100%;
+        height: 100%;
+        border: 1px solid black;
+        background-color: pink;
+    }
+</style>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        var button = document.getElementById('button')
+        var i = 0
+        var r1 = 20;
+        var r2 = 10;
+        var r3 = 5;
+        var gap1 = 4;
+        var gap2 = 12;
+
+        var canvas = document.getElementById('canvas')
+        canvas.width = 320;
+        canvas.height = 320;
+        var context = canvas.getContext('2d')
+        var numOfPeople = 11;
+        var layer1 = numOfPeople;
+        var layer2 = 0;
+        if (numOfPeople > 6) {
+            layer1 = 6;
+            layer2 = numOfPeople - 6;
+        }
+
+
+        var count = 0;
+
+        var thumbImg = document.createElement('img');
+        thumbImg.src = 'crow.png';
+
+        function draw() {
+            context.clearRect(0, 0, 800, 600);
+            if (layer2 != 0) {
+                context.beginPath();
+                context.arc(150, 75, 2 * (r1 + r2) + gap1 - 1, 0, 2 * Math.PI);
+                context.stroke();
+            }
+
+            context.beginPath();
+            context.arc(150, 75, 2 * (r1) - r2 + gap1, 0, 2 * Math.PI);
+            context.stroke();
+            for (var i = 0; i < numOfPeople; i++) {
+                context.beginPath();
+                context.fillStyle = 'blue';
+                if (i >= 0 && i < 6) {
+                    c1 = 150 + (r1 + r2 + gap1) * Math.cos(2 * Math.PI / layer1 * i + Math.PI / 1080 * count);
+                    c2 = 75 + (r1 + r2 + gap1) * Math.sin(2 * Math.PI / layer1 * i + Math.PI / 1080 * count);
+                    context.arc(150 + (r1 + r2 + gap1) * Math.cos(2 * Math.PI / layer1 * i + Math.PI / 1080 * count), 75 + (r1 + r2 + gap1) * Math.sin(2 * Math.PI / layer1 * i + Math.PI / 1080 * count), 12, 0, 2 * Math.PI);
+                    context.fill();
+                    context.drawImage(thumbImg, c1 - 16 / 2, c2 - 12 / 2, 16, 12);
+                }
+                else {
+                    c1 = 150 + (r1 + r2 + r3 + gap2 + 15) * Math.cos(2 * Math.PI / layer2 * i - 6 - Math.PI / 1080 * count);
+                    c2 = 75 + (r1 + r2 + r3 + gap2 + 15) * Math.sin(2 * Math.PI / layer2 * i - 6 - Math.PI / 1080 * count)
+                    context.arc(c1, c2, 8, 0, 2 * Math.PI);
+                    context.fill();
+                    context.drawImage(thumbImg, c1 - 16 / 2, c2 - 12 / 2, 16, 12);
+                }
+                context.stroke();
+
+            }
+            count++;
+        }
+
+        function drawCircle(width, height, c1, c2, r, thumbImg) {
+            context.arc(c1, c2, r, 0, 2 * Math.PI);
+            context.fillStyle = 'blue';
+            context.fill();
+            context.stroke();
+
+        }
+        setInterval(draw, 30)
+    </script>
+</body>
+
+
+</html>
